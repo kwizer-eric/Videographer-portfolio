@@ -1,3 +1,4 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 @theme {
@@ -109,4 +110,31 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+/* Micro-animations */
+.hover-reveal {
+  @apply transition-all duration-500 [transition-timing-function:ease-out];
+}
+
+.hover-reveal:hover {
+  @apply tracking-[0.4em] opacity-100;
+}
+
+.image-shimmer {
+  animation: shimmer 15s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    filter: brightness(1) contrast(1);
+  }
+
+  50% {
+    filter: brightness(1.2) contrast(1.1);
+  }
+
+  100% {
+    filter: brightness(1) contrast(1);
+  }
 }
