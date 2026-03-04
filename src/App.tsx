@@ -25,7 +25,11 @@ function App() {
           <ProjectSlider />
         </main>
 
-        <Footer timeCode={projects[0].timeCode} />
+        <Footer
+          timeCode={projects[0].timeCode}
+          nextImageUrl={projects[1].imageUrl}
+          count={projects.length}
+        />
 
         {/* Global Film Grain Overlay */}
         <div className="fixed inset-0 pointer-events-none z-[100] opacity-30 mix-blend-overlay">

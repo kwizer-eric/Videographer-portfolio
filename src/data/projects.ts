@@ -13,18 +13,18 @@ export interface Project {
 export const projects: Project[] = [
     {
         id: "01",
-        title: "The Greatest Love",
+        title: "The Greatest Love Story Never Told",
         category: "FEATURE DOCUMENTARY",
         subCategory: "TV & FILM",
         client: "AMAZON ORIGINALS & ARTISTS EQUITY",
-        imageUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop",
+        imageUrl: "https://images.unsplash.com/photo-1485081666476-039302dcd5f1?q=80&w=2070&auto=format&fit=crop",
         timeCode: "00:08:38",
         projectNumber: ".42",
         metadata: "01."
     },
     {
         id: "02",
-        title: "Story Never Told",
+        title: "Modern Masters Architecture & Design",
         category: "COMMERCIAL",
         subCategory: "EDITORIAL",
         client: "NETFLIX & CREATIVE LABS",
@@ -35,7 +35,7 @@ export const projects: Project[] = [
     },
     {
         id: "03",
-        title: "Echoes of Silence",
+        title: "Archival Footage Echoes of Silence",
         category: "REPORTAGE",
         subCategory: "FEATURE DOCUMENTARY",
         client: "APPLE TV+ & STUDIO ARCHIVE",

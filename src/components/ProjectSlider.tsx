@@ -11,34 +11,50 @@ const ProjectSlider: React.FC = () => {
     useLayoutEffect(() => {
         let ctx = gsap.context(() => {
             const slides = gsap.utils.toArray<HTMLElement>('.project-slide');
+            if (!slides.length) return;
 
-            gsap.to(slides, {
+            // Master Timeline for all slide transitions
+            const masterTL = gsap.timeline({
                 scrollTrigger: {
                     trigger: component.current,
                     pin: true,
-                    scrub: 1,
-                    snap: 1 / (slides.length - 1),
-                    end: () => `+=${slides.length * 100}%`,
-                },
+                    scrub: 1.2,
+                    snap: {
+                        snapTo: 1 / (slides.length - 1),
+                        duration: { min: 0.2, max: 0.8 },
+                        ease: "circ.inOut"
+                    },
+                    end: () => `+=${slides.length * 150}%`,
+                }
             });
 
-            slides.forEach((slide, i) => {
-                if (i === 0) return;
+            // Initial state for all but first slide
+            gsap.set(slides.slice(1), { opacity: 0 });
 
-                gsap.fromTo(
-                    slide,
-                    { opacity: 0, y: 100 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        scrollTrigger: {
-                            trigger: slide,
-                            start: () => `${(i - 0.5) * window.innerHeight * 1.5}px`,
-                            end: () => `${(i + 0.5) * window.innerHeight * 1.5}px`,
-                            scrub: true,
-                        },
-                    }
-                );
+            slides.forEach((slide, i) => {
+                const titleLeft = slide.querySelector('.title-left');
+                const titleRight = slide.querySelector('.title-right');
+                const frame = slide.querySelector('.film-frame');
+                const metadata = slide.querySelectorAll('.meta-item');
+
+                // Add labels for precise positioning
+                const label = `slide-${i}`;
+                masterTL.addLabel(label, i);
+
+                if (i > 0) {
+                    // Slide in animation
+                    masterTL.to(slide, { opacity: 1, duration: 0.5 }, label)
+                        .fromTo(titleLeft, { x: -200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(titleRight, { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(frame, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(metadata, { y: 30, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.4 }, label + "+=0.2");
+                }
+
+                if (i < slides.length - 1) {
+                    // Exit animation (optional, overlap with next)
+                    const nextLabel = `slide-${i + 1}`;
+                    masterTL.to(slide, { opacity: 0, duration: 0.5 }, nextLabel + "-=0.2");
+                }
             });
         }, component);
 
@@ -46,16 +62,15 @@ const ProjectSlider: React.FC = () => {
     }, []);
 
     return (
-        <div ref={component} className="relative h-screen bg-charcoal overflow-hidden film-grain">
+        <div ref={component} className="relative h-screen bg-[#0a0a0a] overflow-hidden film-grain">
             {projects.map((project, index) => (
                 <div
                     key={project.id}
-                    className={`project-slide absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-700 ${index === 0 ? 'opacity-100' : 'opacity-0'
-                        }`}
+                    className="project-slide absolute inset-0 flex items-center justify-center pointer-events-none"
                     style={{ zIndex: projects.length - index }}
                 >
                     {/* Background vertical film markings */}
-                    <div className="absolute inset-0 flex justify-between px-20 md:px-40 opacity-10 pointer-events-none">
+                    <div className="absolute inset-0 flex justify-between px-20 md:px-40 opacity-[0.03] pointer-events-none">
                         {[...Array(4)].map((_, i) => (
                             <div key={i} className="flex flex-col justify-around h-full border-x border-cream/20 px-4 font-mono text-[8px]">
                                 <span>077</span>
@@ -65,11 +80,11 @@ const ProjectSlider: React.FC = () => {
                         ))}
                     </div>
 
-                    <div className="relative w-full max-w-[90vw] flex flex-col items-center">
+                    <div className="relative w-full max-w-[95vw] flex flex-col items-center">
                         {/* Top Metadata */}
-                        <div className="w-full flex justify-between items-center mb-4 px-4 md:px-20 font-mono text-[10px] tracking-widest text-cream/60">
+                        <div className="w-full flex justify-between items-center mb-8 px-4 md:px-12 font-mono text-[9px] tracking-[0.4em] text-cream/30 meta-item">
                             <span className="uppercase">{project.category}</span>
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 opacity-40">
                                 <span>ⓥ</span>
                                 <span>Ⓝ</span>
                                 <span>ⓥ</span>
@@ -78,55 +93,56 @@ const ProjectSlider: React.FC = () => {
                         </div>
 
                         {/* Main Content Area */}
-                        <div className="relative flex items-center justify-center w-full gap-8 md:gap-12">
+                        <div className="relative flex items-center justify-center w-full min-h-[50vh]">
                             {/* Left Title Part */}
-                            <div className="absolute left-0 w-[40%] text-right pr-4 md:pr-12 pointer-events-auto">
-                                <h2 className="text-4xl md:text-8xl font-serif italic leading-none text-cream text-shadow-glow">
-                                    {project.title.split(' ').slice(0, 2).join(' ')}
+                            <div className="title-left absolute left-0 w-[45%] text-right pr-4 md:pr-10 pointer-events-auto z-20">
+                                <h2 className="text-2xl md:text-[4.5vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
+                                    {project.title.split(' ').slice(0, Math.ceil(project.title.split(' ').length / 2)).join(' ')}
                                 </h2>
                             </div>
 
                             {/* Central Film Frame */}
-                            <div className="relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[600px] z-10">
+                            <div className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[42vw] md:max-w-[40vw] z-10">
                                 {/* Film Frame Borders/Markings */}
-                                <div className="absolute -inset-4 border-cream/20">
-                                    <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-cream/40"></div>
-                                    <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-cream/40"></div>
-                                    <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-cream/40"></div>
-                                    <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-cream/40"></div>
+                                <div className="absolute -inset-2 md:-inset-4 border-cream/20">
+                                    <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cream/40"></div>
+                                    <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-cream/40"></div>
+                                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-cream/40"></div>
+                                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cream/40"></div>
+                                </div>
+
+                                <div className="w-full h-full overflow-hidden bg-black relative rounded-[2px] shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                                    <img
+                                        src={project.imageUrl}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover opacity-80 scale-100 hover:scale-105 transition-transform duration-1000 image-shimmer"
+                                    />
+                                    {/* Subtle Film Grain/Gradient on image */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
+                                    <div className="absolute inset-0 bg-cream/5 mix-blend-soft-light pointer-events-none"></div>
                                 </div>
 
                                 {/* Vertical frame numbers */}
-                                <div className="absolute -left-10 inset-y-0 flex flex-col justify-around py-8 font-mono text-[8px] opacity-40">
+                                <div className="absolute -left-6 md:-left-12 inset-y-0 flex flex-col justify-around py-4 md:py-8 font-mono text-[7px] opacity-20 text-cream">
                                     <span>{index + 1}70</span>
                                     <span>{index + 2}00</span>
                                     <span>{index + 3}10</span>
                                 </div>
-
-                                <div className="w-full h-full overflow-hidden bg-black/40 relative">
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover mix-blend-screen opacity-90 scale-105"
-                                    />
-                                    {/* Internal scanline/shutter effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
-                                </div>
                             </div>
 
                             {/* Right Title Part */}
-                            <div className="absolute right-0 w-[40%] text-left pl-4 md:pl-12 pointer-events-auto">
-                                <h2 className="text-4xl md:text-8xl font-serif italic leading-none text-cream text-shadow-glow">
-                                    {project.title.split(' ').slice(2).join(' ')}
+                            <div className="title-right absolute right-0 w-[45%] text-left pl-4 md:pl-10 pointer-events-auto z-20">
+                                <h2 className="text-2xl md:text-[4.5vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
+                                    {project.title.split(' ').slice(Math.ceil(project.title.split(' ').length / 2)).join(' ')}
                                 </h2>
                             </div>
                         </div>
 
                         {/* Bottom Metadata */}
-                        <div className="w-full flex justify-between items-center mt-8 px-4 md:px-20 font-mono text-[10px] tracking-widest text-cream/80">
-                            <span className="opacity-60">{project.metadata}</span>
-                            <span className="uppercase text-center max-w-[300px]">{project.client}</span>
-                            <span className="opacity-60">{project.projectNumber}</span>
+                        <div className="w-full flex justify-between items-center mt-12 px-4 md:px-12 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item">
+                            <span className="opacity-40">{project.metadata}</span>
+                            <span className="uppercase text-center max-w-[400px] border-b border-cream/10 pb-1">{project.client}</span>
+                            <span className="opacity-40">{project.projectNumber}</span>
                         </div>
                     </div>
                 </div>
