@@ -6,10 +6,7 @@ import { SmoothScroll } from './components/SmoothScroll'
 import { projects } from './data/projects'
 
 function App() {
-  const [activeProjectIndex, setActiveProjectIndex] = useState(0)
-
   // Listen to GSAP ScrollTrigger events to update the footer timecode
-  // This is a simplified version; in a real app, you might use a more robust state management
   useEffect(() => {
     const handleScroll = () => {
       // Find which project is currently most visible

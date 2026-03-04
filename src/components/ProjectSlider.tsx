@@ -7,7 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ProjectSlider: React.FC = () => {
     const component = useRef<HTMLDivElement>(null);
-    const sliderRef = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
         let ctx = gsap.context(() => {
