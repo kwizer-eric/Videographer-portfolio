@@ -2,7 +2,7 @@ import React from 'react';
 
 const Contact: React.FC = () => {
     return (
-        <div className="relative w-screen h-screen bg-[#10100e] text-[#d4cbb3] flex items-center justify-center overflow-hidden">
+        <div className="relative w-screen min-h-[100dvh] py-32 lg:py-0 bg-[#10100e] text-[#d4cbb3] flex items-center justify-center overflow-y-auto overflow-x-hidden">
 
             {/* Background alignment lines */}
             <div className="absolute inset-0 flex justify-between px-[12.5%] opacity-20 pointer-events-none z-0">
@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
             </div>
 
             {/* 4-Column Grid */}
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mt-20 md:mt-0">
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12 lg:gap-8 mt-12 md:mt-0">
 
                 {/* Column 1: TV & Film */}
                 <div className="flex flex-col items-center text-center group">

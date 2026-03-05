@@ -103,23 +103,25 @@ const Archive: React.FC = () => {
             onTouchMove={handleTouchMove}
         >
             {/* Hover Metadata Overlay (Left side) */}
-            <div className="absolute left-0 top-0 w-[40%] h-full flex flex-col justify-center pl-10 md:pl-20 pointer-events-none z-20">
-                <div className={`transition-opacity duration-700 ${hoveredProject ? 'opacity-100' : 'opacity-0'}`}>
-                    {hoveredProject && (
-                        <div className="flex flex-col text-[#d4cbb3]">
-                            <div className="flex items-center gap-2 mb-4 text-[10px] tracking-[0.2em] font-mono">
-                                <span>{hoveredProject.projectNumber}</span>
-                                <span className="opacity-40">/</span>
-                                <span className="uppercase">{hoveredProject.category}</span>
+            <div className="absolute left-0 top-0 w-[80%] md:w-[40%] h-full flex flex-col justify-center pl-6 md:pl-20 pointer-events-none z-20">
+                <div className={`transition-opacity duration-700 ${hoveredProject ? 'opacity-100' : 'opacity-0'} w-full h-full flex flex-col justify-center bg-gradient-to-r from-black/80 via-black/40 to-transparent md:bg-none`}>
+                    <div className="pl-6 md:pl-0">
+                        {hoveredProject && (
+                            <div className="flex flex-col text-[#d4cbb3]">
+                                <div className="flex items-center gap-2 mb-4 text-[10px] tracking-[0.2em] font-mono">
+                                    <span>{hoveredProject.projectNumber}</span>
+                                    <span className="opacity-40">/</span>
+                                    <span className="uppercase">{hoveredProject.category}</span>
+                                </div>
+                                <h2 className="text-4xl md:text-5xl lg:text-[4vw] font-serif italic leading-[0.9] tracking-tighter mb-6 text-shadow-glow">
+                                    {hoveredProject.title}
+                                </h2>
+                                <div className="text-[10px] tracking-[0.2em] font-mono uppercase bg-[#d4cbb3] text-charcoal px-4 py-2 self-start mix-blend-screen font-bold">
+                                    {hoveredProject.client}
+                                </div>
                             </div>
-                            <h2 className="text-4xl md:text-5xl lg:text-[4vw] font-serif italic leading-[0.9] tracking-tighter mb-6 text-shadow-glow">
-                                {hoveredProject.title}
-                            </h2>
-                            <div className="text-[10px] tracking-[0.2em] font-mono uppercase bg-[#d4cbb3] text-charcoal px-4 py-2 self-start mix-blend-screen font-bold">
-                                {hoveredProject.client}
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
 

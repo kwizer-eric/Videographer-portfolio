@@ -157,7 +157,7 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
                             </div>
 
                             {/* Central Film Frame */}
-                            <div className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[42vw] md:max-w-[40vw] z-10">
+                            <div className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[65vw] md:max-w-[40vw] z-10">
                                 {/* Film Frame Borders/Markings */}
                                 <div className="absolute -inset-2 md:-inset-4 border-cream/20">
                                     <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cream/40"></div>
