@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface FooterProps {
-    currentView: 'slider' | 'archive';
-    setView: (view: 'slider' | 'archive') => void;
+    currentView: 'slider' | 'archive' | 'contact';
+    setView: (view: 'slider' | 'archive' | 'contact') => void;
     timeCode: string;
     nextImageUrl?: string;
     count: number;

@@ -3,11 +3,12 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import ProjectSlider from './components/ProjectSlider'
 import Archive from './components/Archive'
+import Contact from './components/Contact'
 import { projects } from './data/projects'
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [view, setView] = useState<'slider' | 'archive'>('slider')
+  const [view, setView] = useState<'slider' | 'archive' | 'contact'>('slider')
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0a] selection:bg-cream selection:text-charcoal overflow-x-hidden">
@@ -16,8 +17,10 @@ function App() {
       <main>
         {view === 'slider' ? (
           <ProjectSlider onProjectChange={setCurrentIndex} />
-        ) : (
+        ) : view === 'archive' ? (
           <Archive />
+        ) : (
+          <Contact />
         )}
       </main>
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface HeaderProps {
-    currentView: 'slider' | 'archive';
-    setView: (view: 'slider' | 'archive') => void;
+    currentView: 'slider' | 'archive' | 'contact';
+    setView: (view: 'slider' | 'archive' | 'contact') => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
@@ -39,7 +39,13 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
                     <span className="opacity-40 hover:opacity-100 transition-opacity uppercase cursor-pointer">About</span>
                 </div>
 
-                <span className="opacity-40 hover:opacity-100 transition-opacity uppercase cursor-pointer mt-[2px]">Contact</span>
+                <div
+                    className="flex items-center gap-2 cursor-pointer group mt-[2px]"
+                    onClick={() => setView('contact')}
+                >
+                    <span className={`w-1 h-1 bg-[#d4cbb3] rounded-full transition-opacity ${currentView === 'contact' ? 'opacity-100' : 'opacity-0'}`}></span>
+                    <span className={`transition-all duration-300 uppercase ${currentView === 'contact' ? 'text-[#d4cbb3] opacity-100' : 'opacity-40 group-hover:opacity-100'}`}>Contact</span>
+                </div>
             </nav>
         </header>
     );
