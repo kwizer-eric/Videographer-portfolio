@@ -58,11 +58,53 @@ const Archive: React.FC = () => {
         if (rightTween.current) rightTween.current.play();
     };
 
+    const lastTouchY = useRef<number>(0);
+
+    const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+        if (!leftTween.current || !rightTween.current) return;
+
+        // e.deltaY is positive when scrolling down.
+        const scrollAmount = e.deltaY * 0.0004;
+
+        // Add to current progress, wrap between 0 and 1 for infinite seamless looping
+        const newLeftProgress = gsap.utils.wrap(0, 1, leftTween.current.progress() + scrollAmount);
+        const newRightProgress = gsap.utils.wrap(0, 1, rightTween.current.progress() + scrollAmount);
+
+        leftTween.current.progress(newLeftProgress);
+        rightTween.current.progress(newRightProgress);
+    };
+
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        lastTouchY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (!leftTween.current || !rightTween.current) return;
+
+        const currentY = e.touches[0].clientY;
+        const deltaY = lastTouchY.current - currentY; // positive if sliding finger up (scrolling down page)
+        lastTouchY.current = currentY;
+
+        const scrollAmount = deltaY * 0.0015;
+
+        const newLeftProgress = gsap.utils.wrap(0, 1, leftTween.current.progress() + scrollAmount);
+        const newRightProgress = gsap.utils.wrap(0, 1, rightTween.current.progress() + scrollAmount);
+
+        leftTween.current.progress(newLeftProgress);
+        rightTween.current.progress(newRightProgress);
+    };
+
     return (
-        <div ref={containerRef} className="relative w-screen h-screen bg-[#0a0a0a] overflow-hidden">
+        <div
+            ref={containerRef}
+            className="relative w-screen h-screen bg-[#0a0a0a] overflow-hidden"
+            onWheel={handleWheel}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+        >
             {/* Hover Metadata Overlay (Left side) */}
             <div className="absolute left-0 top-0 w-[40%] h-full flex flex-col justify-center pl-10 md:pl-20 pointer-events-none z-20">
-                <div className={`transition - opacity duration - 700 ${hoveredProject ? 'opacity-100' : 'opacity-0'} `}>
+                <div className={`transition-opacity duration-700 ${hoveredProject ? 'opacity-100' : 'opacity-0'}`}>
                     {hoveredProject && (
                         <div className="flex flex-col text-[#d4cbb3]">
                             <div className="flex items-center gap-2 mb-4 text-[10px] tracking-[0.2em] font-mono">
@@ -89,7 +131,7 @@ const Archive: React.FC = () => {
                     <div ref={leftColRef} className="flex flex-col absolute w-full top-0 left-0">
                         {loopedLeft.map((project, idx) => (
                             <div
-                                key={`left - ${project.id} -${idx} `}
+                                key={`left-${project.id}-${idx}`}
                                 className="group cursor-pointer pb-12 md:pb-24"
                                 onMouseEnter={() => handleMouseEnter(project)}
                                 onMouseLeave={handleMouseLeave}
@@ -118,7 +160,7 @@ const Archive: React.FC = () => {
                     <div ref={rightColRef} className="flex flex-col absolute w-full top-0 left-0">
                         {loopedRight.map((project, idx) => (
                             <div
-                                key={`right - ${project.id} -${idx} `}
+                                key={`right-${project.id}-${idx}`}
                                 className="group cursor-pointer pb-12 md:pb-24"
                                 onMouseEnter={() => handleMouseEnter(project)}
                                 onMouseLeave={handleMouseLeave}
@@ -158,4 +200,4 @@ const Archive: React.FC = () => {
 };
 
 export default Archive;
-```
+
