@@ -2,10 +2,15 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Gallery: React.FC = () => {
+interface GalleryProps {
+    onProjectSelect?: (project: Project) => void;
+}
+
+const Gallery: React.FC<GalleryProps> = ({ onProjectSelect }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const stripRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +52,11 @@ const Gallery: React.FC = () => {
                     </div>
 
                     {projects.map((project, idx) => (
-                        <div key={idx} className="relative h-full flex-shrink-0 aspect-[4/5] md:aspect-[16/10] group cursor-pointer">
+                        <div
+                            key={idx}
+                            className="relative h-full flex-shrink-0 aspect-[4/5] md:aspect-[16/10] group cursor-pointer pointer-events-auto"
+                            onClick={() => onProjectSelect && onProjectSelect(project)}
+                        >
                             <div className="w-full h-full overflow-hidden bg-black relative border border-white/5 rounded-[2px] shadow-2xl">
                                 <img
                                     src={project.imageUrl}

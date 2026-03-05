@@ -3,14 +3,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Observer } from 'gsap/all';
 import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger, Observer);
 
 interface ProjectSliderProps {
     onProjectChange?: (index: number) => void;
+    onProjectSelect?: (project: Project) => void;
 }
 
-const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
+const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjectSelect }) => {
     const component = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
@@ -157,7 +159,10 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
                             </div>
 
                             {/* Central Film Frame */}
-                            <div className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[65vw] md:max-w-[40vw] z-10">
+                            <div
+                                className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[65vw] md:max-w-[40vw] z-10 cursor-pointer pointer-events-auto transition-transform hover:scale-[1.02] duration-500"
+                                onClick={() => onProjectSelect && onProjectSelect(project)}
+                            >
                                 {/* Film Frame Borders/Markings */}
                                 <div className="absolute -inset-2 md:-inset-4 border-cream/20">
                                     <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cream/40"></div>

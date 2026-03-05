@@ -1,8 +1,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 
-const Archive: React.FC = () => {
+interface ArchiveProps {
+    onProjectSelect?: (project: Project) => void;
+}
+
+const Archive: React.FC<ArchiveProps> = ({ onProjectSelect }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftColRef = useRef<HTMLDivElement>(null);
     const rightColRef = useRef<HTMLDivElement>(null);
@@ -137,8 +142,9 @@ const Archive: React.FC = () => {
                                 className="group cursor-pointer pb-12 md:pb-24"
                                 onMouseEnter={() => handleMouseEnter(project)}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => onProjectSelect && onProjectSelect(project)}
                             >
-                                <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+                                <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] pointer-events-auto">
                                     <img
                                         src={project.imageUrl}
                                         className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 grayscale-[0.8] group-hover:grayscale-0"
@@ -166,8 +172,9 @@ const Archive: React.FC = () => {
                                 className="group cursor-pointer pb-12 md:pb-24"
                                 onMouseEnter={() => handleMouseEnter(project)}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => onProjectSelect && onProjectSelect(project)}
                             >
-                                <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+                                <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] pointer-events-auto">
                                     <img
                                         src={project.imageUrl}
                                         className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 grayscale-[0.8] group-hover:grayscale-0"
