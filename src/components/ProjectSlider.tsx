@@ -1,11 +1,16 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Observer } from 'gsap/all';
 import { projects } from '../data/projects';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Observer);
 
-const ProjectSlider: React.FC = () => {
+interface ProjectSliderProps {
+    onProjectChange?: (index: number) => void;
+}
+
+const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
     const component = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
@@ -15,17 +20,8 @@ const ProjectSlider: React.FC = () => {
 
             // Master Timeline for all slide transitions
             const masterTL = gsap.timeline({
-                scrollTrigger: {
-                    trigger: component.current,
-                    pin: true,
-                    scrub: 1.2,
-                    snap: {
-                        snapTo: 1 / (slides.length - 1),
-                        duration: { min: 0.2, max: 0.8 },
-                        ease: "circ.inOut"
-                    },
-                    end: () => `+=${slides.length * 150}%`,
-                }
+                paused: true,
+                defaults: { ease: "power2.inOut", duration: 0.8 }
             });
 
             // Initial state for all but first slide
@@ -37,25 +33,52 @@ const ProjectSlider: React.FC = () => {
                 const frame = slide.querySelector('.film-frame');
                 const metadata = slide.querySelectorAll('.meta-item');
 
-                // Add labels for precise positioning
                 const label = `slide-${i}`;
                 masterTL.addLabel(label, i);
 
                 if (i > 0) {
                     // Slide in animation
-                    masterTL.to(slide, { opacity: 1, duration: 0.5 }, label)
-                        .fromTo(titleLeft, { x: -200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(titleRight, { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(frame, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(metadata, { y: 30, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.4 }, label + "+=0.2");
+                    masterTL.to(slide, { opacity: 1, duration: 0.4 }, label)
+                        .fromTo(titleLeft, { x: -150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(titleRight, { x: 150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(frame, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, label)
+                        .fromTo(metadata, { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.4 }, label + "+=0.2");
                 }
 
                 if (i < slides.length - 1) {
-                    // Exit animation (optional, overlap with next)
+                    // Exit animation
                     const nextLabel = `slide-${i + 1}`;
-                    masterTL.to(slide, { opacity: 0, duration: 0.5 }, nextLabel + "-=0.2");
+                    masterTL.to(slide, { opacity: 0, duration: 0.4 }, nextLabel + "-=0.2");
                 }
             });
+
+            let currentIndexLocal = 0;
+            let isAnimating = false;
+
+            const gotoSlide = (index: number) => {
+                if (isAnimating || index < 0 || index >= slides.length) return;
+
+                isAnimating = true;
+                currentIndexLocal = index;
+                if (onProjectChange) onProjectChange(index);
+
+                masterTL.tweenTo(`slide-${index}`, {
+                    duration: 0.8,
+                    ease: "power2.inOut",
+                    onComplete: () => { isAnimating = false; }
+                });
+            };
+
+            // Create Observer to catch scroll intent
+            Observer.create({
+                type: "wheel,touch,pointer",
+                wheelSpeed: -1,
+                onDown: () => gotoSlide(currentIndexLocal + 1),
+                onUp: () => gotoSlide(currentIndexLocal - 1),
+                tolerance: 10,
+                preventDefault: true
+            });
+
         }, component);
 
         return () => ctx.revert();
@@ -115,9 +138,8 @@ const ProjectSlider: React.FC = () => {
                                     <img
                                         src={project.imageUrl}
                                         alt={project.title}
-                                        className="w-full h-full object-cover opacity-80 scale-100 hover:scale-105 transition-transform duration-1000 image-shimmer"
+                                        className="w-full h-full object-cover opacity-80 scale-100 image-shimmer"
                                     />
-                                    {/* Subtle Film Grain/Gradient on image */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
                                     <div className="absolute inset-0 bg-cream/5 mix-blend-soft-light pointer-events-none"></div>
                                 </div>

@@ -1,28 +1,40 @@
 import React from 'react';
 
 interface FooterProps {
+    currentView: 'slider' | 'archive';
+    setView: (view: 'slider' | 'archive') => void;
     timeCode: string;
     nextImageUrl?: string;
     count: number;
 }
 
-const Footer: React.FC<FooterProps> = ({ timeCode, nextImageUrl, count }) => {
+const Footer: React.FC<FooterProps> = ({ currentView, setView, timeCode, nextImageUrl, count }) => {
     return (
-        <footer className="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end p-6 md:p-10 font-mono text-[10px] tracking-[0.2em] mix-blend-difference overflow-hidden">
+        <footer className="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end p-6 md:p-10 font-mono text-[10px] tracking-[0.2em] mix-blend-difference overflow-hidden text-white">
             <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-1">
                     <span>© 2026</span>
                 </div>
                 <div className="flex gap-4">
-                    <span className="text-cream underline underline-offset-4 decoration-1">SLIDER</span>
+                    <span
+                        className={`cursor-pointer transition-all duration-300 ${currentView === 'slider' ? 'text-[#d4cbb3] underline underline-offset-4 decoration-1 font-bold' : 'opacity-40 hover:opacity-100'}`}
+                        onClick={() => setView('slider')}
+                    >
+                        SLIDER
+                    </span>
                     <span className="opacity-40">/</span>
-                    <span className="opacity-40 hover:opacity-100 cursor-pointer transition-opacity">LIST</span>
+                    <span
+                        className={`cursor-pointer transition-all duration-300 ${currentView === 'archive' ? 'text-[#d4cbb3] underline underline-offset-4 decoration-1 font-bold' : 'opacity-40 hover:opacity-100'}`}
+                        onClick={() => setView('archive')}
+                    >
+                        LIST
+                    </span>
                 </div>
             </div>
 
             <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[120px] md:w-[180px] aspect-video mb-6 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
-                {nextImageUrl && (
-                    <div className="relative w-full h-full overflow-hidden border border-cream/20 bg-charcoal">
+                {nextImageUrl && currentView === 'slider' && (
+                    <div className="relative w-full h-full overflow-hidden border border-white/20 bg-black">
                         {/* Preview decorative vertical markings */}
                         <div className="absolute inset-y-0 -left-6 flex flex-col justify-around text-[6px] opacity-30">
                             <span>350</span>
@@ -41,12 +53,12 @@ const Footer: React.FC<FooterProps> = ({ timeCode, nextImageUrl, count }) => {
             <div className="flex gap-16 items-end">
                 <div className="flex flex-col gap-1 text-right">
                     <div className="flex items-center gap-2 justify-end">
-                        <span className="w-1 h-1 bg-cream rounded-full"></span>
+                        <span className="w-1 h-1 bg-white rounded-full"></span>
                         <span className="italic font-serif">ALL ({count})</span>
                     </div>
-                    <span className="opacity-40">TV & FILM</span>
-                    <span className="opacity-40">COMMERCIAL</span>
-                    <span className="opacity-40">EDITORIAL</span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">TV & FILM</span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">COMMERCIAL</span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">EDITORIAL</span>
                 </div>
 
                 <div className="flex flex-col gap-1 text-right">

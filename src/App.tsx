@@ -1,42 +1,39 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ProjectSlider from './components/ProjectSlider'
-import { SmoothScroll } from './components/SmoothScroll'
+import Archive from './components/Archive'
 import { projects } from './data/projects'
 
 function App() {
-  // Listen to GSAP ScrollTrigger events to update the footer timecode
-  useEffect(() => {
-    const handleScroll = () => {
-      // Find which project is currently most visible
-      // This is handled by GSAP, but for the footer count/timecode we can sync it
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [view, setView] = useState<'slider' | 'archive'>('slider')
 
   return (
-    <SmoothScroll>
-      <div className="relative min-h-screen bg-charcoal selection:bg-cream selection:text-charcoal overflow-x-hidden">
-        <Header />
+    <div className="relative min-h-screen bg-[#0a0a0a] selection:bg-cream selection:text-charcoal overflow-x-hidden">
+      <Header currentView={view} setView={setView} />
 
-        <main>
-          <ProjectSlider />
-        </main>
+      <main>
+        {view === 'slider' ? (
+          <ProjectSlider onProjectChange={setCurrentIndex} />
+        ) : (
+          <Archive />
+        )}
+      </main>
 
-        <Footer
-          timeCode={projects[0].timeCode}
-          nextImageUrl={projects[1].imageUrl}
-          count={projects.length}
-        />
+      <Footer
+        currentView={view}
+        setView={setView}
+        timeCode={projects[currentIndex].timeCode}
+        nextImageUrl={projects[(currentIndex + 1) % projects.length].imageUrl}
+        count={projects.length}
+      />
 
-        {/* Global Film Grain Overlay */}
-        <div className="fixed inset-0 pointer-events-none z-[100] opacity-30 mix-blend-overlay">
-          <div className="absolute inset-0 bg-[#050505]/10 animate-pulse"></div>
-        </div>
+      {/* Global Film Grain Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-30 mix-blend-overlay">
+        <div className="absolute inset-0 bg-[#050505]/10 animate-pulse"></div>
       </div>
-    </SmoothScroll>
+    </div>
   )
 }
 
