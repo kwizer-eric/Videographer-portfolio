@@ -21,11 +21,12 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
             // Master Timeline for all slide transitions
             const masterTL = gsap.timeline({
                 paused: true,
-                defaults: { ease: "power2.inOut", duration: 0.8 }
+                defaults: { ease: "none" }
             });
 
             // Initial state for all but first slide
-            gsap.set(slides.slice(1), { opacity: 0 });
+            gsap.set(slides.slice(1), { autoAlpha: 0 });
+            gsap.set(slides[0], { autoAlpha: 1 });
 
             slides.forEach((slide, i) => {
                 const titleLeft = slide.querySelector('.title-left');
@@ -36,19 +37,50 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
                 const label = `slide-${i}`;
                 masterTL.addLabel(label, i);
 
+                // ENTERING ANIMATION (Plays when tweening from i-1 to i)
                 if (i > 0) {
-                    // Slide in animation
-                    masterTL.to(slide, { opacity: 1, duration: 0.4 }, label)
-                        .fromTo(titleLeft, { x: -150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(titleRight, { x: 150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(frame, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, label)
-                        .fromTo(metadata, { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.4 }, label + "+=0.2");
+                    masterTL.fromTo(slide, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, i - 1)
+                        .fromTo(frame,
+                            { y: '100vh', scale: 0.9 },
+                            { y: '0vh', scale: 1, duration: 1 },
+                            i - 1
+                        )
+                        .fromTo(titleLeft,
+                            { y: '30vh', opacity: 0 },
+                            { y: '0vh', opacity: 1, duration: 1 },
+                            i - 1
+                        )
+                        .fromTo(titleRight,
+                            { y: '40vh', opacity: 0 },
+                            { y: '0vh', opacity: 1, duration: 1 },
+                            i - 1
+                        )
+                        .fromTo(metadata,
+                            { y: 30, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 1 },
+                            i - 1
+                        );
                 }
 
+                // LEAVING ANIMATION (Plays when tweening from i to i+1)
                 if (i < slides.length - 1) {
-                    // Exit animation
-                    const nextLabel = `slide-${i + 1}`;
-                    masterTL.to(slide, { opacity: 0, duration: 0.4 }, nextLabel + "-=0.2");
+                    masterTL.to(frame,
+                        { y: '-100vh', scale: 0.9, duration: 1 },
+                        i
+                    )
+                        .to(titleLeft,
+                            { y: '-30vh', opacity: 0, duration: 1 },
+                            i
+                        )
+                        .to(titleRight,
+                            { y: '-40vh', opacity: 0, duration: 1 },
+                            i
+                        )
+                        .to(metadata,
+                            { y: -30, opacity: 0, duration: 1 },
+                            i
+                        )
+                        .set(slide, { autoAlpha: 0 }, i + 1);
                 }
             });
 
@@ -63,8 +95,8 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange }) => {
                 if (onProjectChange) onProjectChange(index);
 
                 masterTL.tweenTo(`slide-${index}`, {
-                    duration: 0.8,
-                    ease: "power2.inOut",
+                    duration: 1.4, // Slower, cinematic transition
+                    ease: "power3.inOut",
                     onComplete: () => { isAnimating = false; }
                 });
             };

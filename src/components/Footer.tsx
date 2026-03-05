@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface FooterProps {
-    currentView: 'slider' | 'archive' | 'contact';
-    setView: (view: 'slider' | 'archive' | 'contact') => void;
+    currentView: 'slider' | 'archive' | 'contact' | 'gallery';
+    setView: (view: 'slider' | 'archive' | 'contact' | 'gallery') => void;
     timeCode: string;
     nextImageUrl?: string;
     count: number;
@@ -10,8 +10,8 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ currentView, setView, timeCode, nextImageUrl, count }) => {
     return (
-        <footer className="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end p-6 md:p-10 font-mono text-[10px] tracking-[0.2em] mix-blend-difference overflow-hidden text-white">
-            <div className="flex flex-col gap-8">
+        <footer className="fixed bottom-0 left-0 w-full z-40 flex justify-between items-end p-4 md:p-10 font-mono text-[8px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] mix-blend-difference overflow-hidden text-white pointer-events-none">
+            <div className="flex flex-col gap-4 md:gap-8 pointer-events-auto">
                 <div className="flex flex-col gap-1">
                     <span>© 2026</span>
                 </div>
@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = ({ currentView, setView, timeCode, nextIma
                 </div>
             </div>
 
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[120px] md:w-[180px] aspect-video mb-6 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+            <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 bottom-0 w-[120px] md:w-[180px] aspect-video mb-6 opacity-80 hover:opacity-100 transition-opacity cursor-pointer pointer-events-auto">
                 {nextImageUrl && currentView === 'slider' && (
                     <div className="relative w-full h-full overflow-hidden border border-white/20 bg-black">
                         {/* Preview decorative vertical markings */}
@@ -50,7 +50,7 @@ const Footer: React.FC<FooterProps> = ({ currentView, setView, timeCode, nextIma
                 )}
             </div>
 
-            <div className="flex gap-16 items-end">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-16 items-end pointer-events-auto">
                 <div className="flex flex-col gap-1 text-right">
                     <div className="flex items-center gap-2 justify-end">
                         <span className="w-1 h-1 bg-white rounded-full"></span>
