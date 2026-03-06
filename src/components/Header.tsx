@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
         <>
             <header className={`fixed top-0 left-0 w-full z-50 flex justify-between items-start p-4 md:p-10 ${isMenuOpen ? 'mix-blend-normal' : 'mix-blend-difference'}`}>
                 <div className="flex flex-col cursor-pointer z-50" onClick={() => handleNavClick('slider')}>
-                    <h1 className="text-2xl md:text-3xl font-serif italic tracking-tight text-[#d4cbb3] hover:opacity-80 transition-opacity">Jason Bergh</h1>
+                    <h1 className="text-2xl md:text-3xl font-serif italic tracking-tight text-[#d4cbb3] hover:opacity-80 transition-opacity">[ Your Name ]</h1>
                 </div>
 
                 <div className="hidden md:block absolute left-1/2 -translate-x-1/2 mt-1">

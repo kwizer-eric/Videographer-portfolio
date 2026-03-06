@@ -7,9 +7,10 @@ interface ImageViewProps {
     onClose: () => void;
     onNext: () => void;
     onPrev: () => void;
+    onNavigate: (view: 'slider' | 'archive' | 'contact' | 'gallery') => void;
 }
 
-const ImageView: React.FC<ImageViewProps> = ({ project, onClose, onNext, onPrev }) => {
+const ImageView: React.FC<ImageViewProps> = ({ project, onClose, onNext, onPrev, onNavigate }) => {
     return (
         <div className="fixed inset-0 z-[100] bg-[#0a0a0a] text-[#d4cbb3] font-mono select-none flex items-center justify-center overflow-hidden">
 
@@ -37,8 +38,8 @@ const ImageView: React.FC<ImageViewProps> = ({ project, onClose, onNext, onPrev 
             <div className="absolute inset-0 z-50 pointer-events-none">
 
                 {/* Top Nav */}
-                <div className="absolute top-0 w-full pointer-events-auto">
-                    <Header currentView="gallery" setView={() => { }} />
+                <div className="absolute top-0 w-full z-50 pointer-events-auto">
+                    <Header currentView="gallery" setView={onNavigate} />
                 </div>
 
                 {/* Top Left Back Button */}

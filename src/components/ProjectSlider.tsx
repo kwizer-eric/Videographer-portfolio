@@ -43,22 +43,22 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                 if (i > 0) {
                     masterTL.fromTo(slide, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, i - 1)
                         .fromTo(frame,
-                            { y: '100vh', scale: 0.9 },
-                            { y: '0vh', scale: 1, duration: 1 },
+                            { scale: 0.8, filter: 'blur(10px)', opacity: 0 },
+                            { scale: 1, filter: 'blur(0px)', opacity: 1, duration: 1 },
                             i - 1
                         )
                         .fromTo(titleLeft,
-                            { y: '30vh', opacity: 0 },
-                            { y: '0vh', opacity: 1, duration: 1 },
+                            { x: '-20vw', opacity: 0 },
+                            { x: '0vw', opacity: 1, duration: 1 },
                             i - 1
                         )
                         .fromTo(titleRight,
-                            { y: '40vh', opacity: 0 },
-                            { y: '0vh', opacity: 1, duration: 1 },
+                            { x: '20vw', opacity: 0 },
+                            { x: '0vw', opacity: 1, duration: 1 },
                             i - 1
                         )
                         .fromTo(metadata,
-                            { y: 30, opacity: 0 },
+                            { y: 20, opacity: 0 },
                             { y: 0, opacity: 1, duration: 1 },
                             i - 1
                         );
@@ -67,19 +67,19 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                 // LEAVING ANIMATION (Plays when tweening from i to i+1)
                 if (i < slides.length - 1) {
                     masterTL.to(frame,
-                        { y: '-100vh', scale: 0.9, duration: 1 },
+                        { scale: 1.3, filter: 'blur(15px)', opacity: 0, duration: 1 },
                         i
                     )
                         .to(titleLeft,
-                            { y: '-30vh', opacity: 0, duration: 1 },
+                            { x: '-20vw', opacity: 0, duration: 1 },
                             i
                         )
                         .to(titleRight,
-                            { y: '-40vh', opacity: 0, duration: 1 },
+                            { x: '20vw', opacity: 0, duration: 1 },
                             i
                         )
                         .to(metadata,
-                            { y: -30, opacity: 0, duration: 1 },
+                            { y: -20, opacity: 0, duration: 1 },
                             i
                         )
                         .set(slide, { autoAlpha: 0 }, i + 1);
@@ -97,7 +97,7 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                 if (onProjectChange) onProjectChange(index);
 
                 masterTL.tweenTo(`slide-${index}`, {
-                    duration: 1.4, // Slower, cinematic transition
+                    duration: 1.4, // Cinematic crossfade duration
                     ease: "power3.inOut",
                     onComplete: () => { isAnimating = false; }
                 });
@@ -175,10 +175,13 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                                     </div>
 
                                     <div className="w-full h-full overflow-hidden bg-black relative rounded-[2px] shadow-[0_0_50px_rgba(0,0,0,0.8)]">
-                                        <img
-                                            src={project.imageUrl}
-                                            alt={project.title}
-                                            className="w-full h-full object-cover opacity-80 scale-100 image-shimmer"
+                                        <video
+                                            src={project.videoUrl}
+                                            className="w-full h-full object-cover opacity-80 scale-100"
+                                            autoPlay
+                                            muted
+                                            loop
+                                            playsInline
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
                                         <div className="absolute inset-0 bg-cream/5 mix-blend-soft-light pointer-events-none"></div>

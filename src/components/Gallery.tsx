@@ -82,8 +82,11 @@ const Gallery: React.FC<GalleryProps> = ({ onProjectSelect }) => {
                     src={project.imageUrl}
                     alt={project.title}
                     loading="lazy"
-                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale-[0.6] group-hover:grayscale-0"
+                    className="w-full h-full object-cover object-center relative z-0"
                 />
+
+                {/* Artificial Brightness Overlay: 40% black default = 60% brightness. Transparent on hover = 100% brightness */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700 ease-out z-10 pointer-events-none"></div>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
@@ -103,9 +106,9 @@ const Gallery: React.FC<GalleryProps> = ({ onProjectSelect }) => {
 
             {/* Introductory Overlay text that stays pinned on top */}
             <div className="absolute top-24 left-12 md:left-24 z-20 pointer-events-none">
-                <h1 className="font-serif italic text-5xl md:text-7xl text-cream tracking-tight text-shadow-glow">
-                    Photography
-                </h1>
+                <h4 className="font-serif italic text-5xl md:text-7xl text-cream tracking-tight text-shadow-glow">
+
+                </h4>
                 <p className="font-mono text-[10px] tracking-[0.4em] text-cream/30 uppercase mt-4">
                     [ Scroll to Explore / {massiveGallery.length} Works ]
                 </p>

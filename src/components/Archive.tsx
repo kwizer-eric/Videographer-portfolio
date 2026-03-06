@@ -145,11 +145,16 @@ const Archive: React.FC<ArchiveProps> = ({ onProjectSelect }) => {
                                 onClick={() => onProjectSelect && onProjectSelect(project)}
                             >
                                 <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] pointer-events-auto">
-                                    <img
-                                        src={project.imageUrl}
-                                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 grayscale-[0.8] group-hover:grayscale-0"
-                                        alt={project.title}
+                                    <video
+                                        src={project.videoUrl}
+                                        className="w-full h-full object-cover object-center relative z-0 transition-transform duration-[800ms] group-hover:scale-[1.03]"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
                                     />
+                                    {/* Artificial Brightness Overlay: 40% black default = 60% brightness. Transparent on hover = 100% brightness */}
+                                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-[800ms] ease-out z-10 pointer-events-none"></div>
                                     {/* Film markings on images */}
                                     <div className="absolute inset-x-0 top-2 flex justify-between px-4 text-[6px] font-mono text-white/30 hidden md:flex">
                                         <span>410</span><span>450</span><span>490</span>
@@ -175,11 +180,16 @@ const Archive: React.FC<ArchiveProps> = ({ onProjectSelect }) => {
                                 onClick={() => onProjectSelect && onProjectSelect(project)}
                             >
                                 <div className="relative aspect-[4/5] overflow-hidden bg-black border border-white/5 rounded-[2px] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] pointer-events-auto">
-                                    <img
-                                        src={project.imageUrl}
-                                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 grayscale-[0.8] group-hover:grayscale-0"
-                                        alt={project.title}
+                                    <video
+                                        src={project.videoUrl}
+                                        className="w-full h-full object-cover object-center relative z-0 transition-transform duration-[800ms] group-hover:scale-[1.03]"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
                                     />
+                                    {/* Artificial Brightness Overlay: 40% black default = 60% brightness. Transparent on hover = 100% brightness */}
+                                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-[800ms] ease-out z-10 pointer-events-none"></div>
                                     {/* Film markings on images */}
                                     <div className="absolute inset-x-0 top-2 flex justify-between px-4 text-[6px] font-mono text-white/30 hidden md:flex">
                                         <span>410</span><span>450</span><span>490</span>

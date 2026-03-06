@@ -8,9 +8,10 @@ interface ProjectViewProps {
     onClose: () => void;
     onNext: () => void;
     onPrev: () => void;
+    onNavigate: (view: 'slider' | 'archive' | 'contact' | 'gallery') => void;
 }
 
-const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onPrev }) => {
+const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onPrev, onNavigate }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [currentTime, setCurrentTime] = useState(0);
@@ -19,7 +20,8 @@ const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onP
     const videoRef = useRef<HTMLVideoElement>(null);
     const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const projectIndex = projects.findIndex(p => p.id === project.id);
+    const baseId = project.id.split('-')[0];
+    const projectIndex = projects.findIndex(p => p.id === baseId);
     const prevProject = projects[projectIndex === 0 ? projects.length - 1 : projectIndex - 1];
     const nextProject = projects[projectIndex === projects.length - 1 ? 0 : projectIndex + 1];
 
@@ -120,10 +122,9 @@ const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onP
 
             {/* UI Overlay Container */}
             <div className={`absolute inset-0 transition-opacity duration-1000 ${isIdle && isPlaying ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
-                {/* Top Nav (Reusing Header layout but static for view) */}
-                <div className="absolute top-0 w-full">
-                    {/* Dummy Header props since we don't manage global view state from here but want the visual */}
-                    <Header currentView="slider" setView={() => { }} />
+                {/* Top Nav */}
+                <div className="absolute top-0 w-full z-50 pointer-events-auto">
+                    <Header currentView="slider" setView={onNavigate} />
                 </div>
 
                 {/* Top Left Back Button */}

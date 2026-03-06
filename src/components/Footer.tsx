@@ -56,9 +56,9 @@ const Footer: React.FC<FooterProps> = ({ currentView, setView, timeCode, nextIma
                         <span className="w-1 h-1 bg-white rounded-full"></span>
                         <span className="italic font-serif">ALL ({count})</span>
                     </div>
-                    <span className="opacity-40 hover:opacity-100 cursor-pointer">TV & FILM</span>
-                    <span className="opacity-40 hover:opacity-100 cursor-pointer">COMMERCIAL</span>
-                    <span className="opacity-40 hover:opacity-100 cursor-pointer">EDITORIAL</span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">music videos </span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">wildlife&nature</span>
+                    <span className="opacity-40 hover:opacity-100 cursor-pointer">editorial</span>
                 </div>
 
                 <div className="flex flex-col gap-1 text-right">

@@ -68,6 +68,10 @@ function App() {
           onClose={() => setActiveProject(null)}
           onNext={handleNextProject}
           onPrev={handlePrevProject}
+          onNavigate={(newView: 'slider' | 'archive' | 'contact' | 'gallery') => {
+            setView(newView);
+            setActiveProject(null);
+          }}
         />
       )}
 
@@ -77,6 +81,10 @@ function App() {
           onClose={() => setActiveProject(null)}
           onNext={handleNextProject}
           onPrev={handlePrevProject}
+          onNavigate={(newView: 'slider' | 'archive' | 'contact' | 'gallery') => {
+            setView(newView);
+            setActiveProject(null);
+          }}
         />
       )}
     </div>
