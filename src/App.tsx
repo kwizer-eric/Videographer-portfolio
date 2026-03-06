@@ -6,6 +6,7 @@ import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Gallery from './components/Gallery'
 import ProjectView from './components/ProjectView'
+import ImageView from './components/ImageView'
 import { projects } from './data/projects'
 import type { Project } from './data/projects'
 
@@ -16,13 +17,15 @@ function App() {
 
   const handleNextProject = () => {
     if (!activeProject) return;
-    const idx = projects.findIndex(p => p.id === activeProject.id);
+    const baseId = activeProject.id.split('-')[0];
+    const idx = projects.findIndex(p => p.id === baseId);
     setActiveProject(projects[idx === projects.length - 1 ? 0 : idx + 1]);
   };
 
   const handlePrevProject = () => {
     if (!activeProject) return;
-    const idx = projects.findIndex(p => p.id === activeProject.id);
+    const baseId = activeProject.id.split('-')[0];
+    const idx = projects.findIndex(p => p.id === baseId);
     setActiveProject(projects[idx === 0 ? projects.length - 1 : idx - 1]);
   };
 
@@ -59,8 +62,17 @@ function App() {
         <div className="absolute inset-0 bg-[#050505]/10 animate-pulse"></div>
       </div>
 
-      {activeProject && (
+      {activeProject && view !== 'gallery' && (
         <ProjectView
+          project={activeProject}
+          onClose={() => setActiveProject(null)}
+          onNext={handleNextProject}
+          onPrev={handlePrevProject}
+        />
+      )}
+
+      {activeProject && view === 'gallery' && (
+        <ImageView
           project={activeProject}
           onClose={() => setActiveProject(null)}
           onNext={handleNextProject}

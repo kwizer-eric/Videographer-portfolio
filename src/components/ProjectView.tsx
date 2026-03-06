@@ -126,11 +126,15 @@ const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onP
                     <Header currentView="slider" setView={() => { }} />
                 </div>
 
-                {/* Left Sidebar Actions */}
-                <div className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 flex flex-col gap-32 z-50">
-                    <button onClick={onClose} className="text-[10px] tracking-[0.3em] uppercase hover:text-white transition-colors text-left hidden md:block py-4">
+                {/* Top Left Back Button */}
+                <div className="absolute top-24 left-6 md:left-12 z-50 pointer-events-auto">
+                    <button onClick={onClose} className="text-[10px] tracking-[0.3em] uppercase text-white/50 hover:text-white transition-colors py-2">
                         BACK
                     </button>
+                </div>
+
+                {/* Left Sidebar Actions (PREV) */}
+                <div className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 flex flex-col z-50">
                     <div className="relative group">
                         <button onClick={onPrev} className="text-[10px] tracking-[0.3em] uppercase hover:text-white transition-colors py-4">
                             PREV
@@ -142,7 +146,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ project, onClose, onNext, onP
                     </div>
                 </div>
 
-                {/* Right Sidebar Actions */}
+                {/* Right Sidebar Actions (NEXT) */}
                 <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 flex flex-col items-end z-50">
                     <div className="relative group">
                         <button onClick={onNext} className="text-[10px] tracking-[0.3em] uppercase hover:text-white transition-colors py-4">

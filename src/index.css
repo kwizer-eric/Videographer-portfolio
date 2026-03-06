@@ -9,6 +9,20 @@
   --color-gold: #D4AF37;
   --color-cream: #F0EAD6;
   --color-charcoal: #121212;
+
+  --animate-fade-in-slow: fade-in-slow 1.5s ease-out forwards;
+}
+
+@keyframes fade-in-slow {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 @layer utilities {
