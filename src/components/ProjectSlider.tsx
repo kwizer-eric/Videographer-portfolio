@@ -137,70 +137,74 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                         ))}
                     </div>
 
-                    <div className="relative w-full flex flex-col items-center justify-center">
+                    <div className="relative w-full flex flex-col items-center justify-center h-full">
                         {/* Top Metadata */}
-                        <div className="w-full max-w-[65vw] md:max-w-[40vw] flex justify-between items-center mb-3 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
+                        <div className="w-[55vw] md:w-[40vw] flex justify-between items-center mb-1 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
                             <span className="uppercase">{project.category}</span>
                             <div className="flex gap-4 opacity-40">
                                 <span>ⓥ</span>
                                 <span>Ⓝ</span>
                                 <span>ⓥ</span>
                             </div>
-                            <span className="uppercase">{project.subCategory}</span>
+                            <span className="uppercase whitespace-nowrap">{project.subCategory}</span>
                         </div>
 
                         {/* Main Content Area (Image with split titles) */}
                         <div className="relative flex items-center justify-center w-full">
-                            {/* Left Title Part */}
-                            <div className="title-left absolute left-0 md:left-[10%] lg:left-[15%] text-right pr-4 md:pr-6 pointer-events-auto z-20 w-[40vw] md:w-auto">
-                                <h2 className="text-3xl md:text-[5vw] lg:text-[6vw] xl:text-8xl font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
-                                    {project.title.split(' ').slice(0, Math.ceil(project.title.split(' ').length / 2)).join(' ')}
-                                </h2>
-                            </div>
+                            {/* Wrapper exactly the size of the image */}
+                            <div className="relative w-[55vw] md:w-[40vw] aspect-[4/5] md:aspect-[16/10] flex items-center justify-center">
 
-                            {/* Central Film Frame */}
-                            <div
-                                className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[55vw] md:max-w-[40vw] z-10 cursor-pointer pointer-events-auto transition-transform hover:scale-[1.01] duration-500"
-                                onClick={() => onProjectSelect && onProjectSelect(project)}
-                            >
-                                {/* Film Frame Borders/Markings */}
-                                <div className="absolute -inset-2 md:-inset-4 border-cream/20">
-                                    <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cream/40"></div>
-                                    <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-cream/40"></div>
-                                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-cream/40"></div>
-                                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cream/40"></div>
+                                {/* Left Title Part */}
+                                <div className="title-left absolute right-[100%] pr-2 md:pr-4 text-right pointer-events-auto z-20 w-[40vw] md:w-[25vw] max-w-[400px]">
+                                    <h2 className="text-3xl md:text-[3.75vw] lg:text-[5.25vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter text-balance break-words">
+                                        {project.title.split(' ').slice(0, Math.ceil(project.title.split(' ').length / 2)).join(' ')}
+                                    </h2>
                                 </div>
 
-                                <div className="w-full h-full overflow-hidden bg-black relative rounded-[2px] shadow-[0_0_50px_rgba(0,0,0,0.8)]">
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover opacity-80 scale-100 image-shimmer"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
-                                    <div className="absolute inset-0 bg-cream/5 mix-blend-soft-light pointer-events-none"></div>
+                                {/* Central Film Frame */}
+                                <div
+                                    className="film-frame absolute inset-0 z-10 cursor-pointer pointer-events-auto transition-transform hover:scale-[1.01] duration-500"
+                                    onClick={() => onProjectSelect && onProjectSelect(project)}
+                                >
+                                    {/* Film Frame Borders/Markings */}
+                                    <div className="absolute -inset-2 md:-inset-4 border-cream/20">
+                                        <div className="absolute top-0 left-0 w-4 md:w-6 h-4 md:h-6 border-t border-l border-cream/40"></div>
+                                        <div className="absolute top-0 right-0 w-4 md:w-6 h-4 md:h-6 border-t border-r border-cream/40"></div>
+                                        <div className="absolute bottom-0 left-0 w-4 md:w-6 h-4 md:h-6 border-b border-l border-cream/40"></div>
+                                        <div className="absolute bottom-0 right-0 w-4 md:w-6 h-4 md:h-6 border-b border-r border-cream/40"></div>
+                                    </div>
+
+                                    <div className="w-full h-full overflow-hidden bg-black relative rounded-[2px] shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                                        <img
+                                            src={project.imageUrl}
+                                            alt={project.title}
+                                            className="w-full h-full object-cover opacity-80 scale-100 image-shimmer"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
+                                        <div className="absolute inset-0 bg-cream/5 mix-blend-soft-light pointer-events-none"></div>
+                                    </div>
+
+                                    {/* Vertical frame numbers */}
+                                    <div className="absolute -left-5 md:-left-12 inset-y-0 flex flex-col justify-around py-4 md:py-8 font-mono text-[7px] opacity-20 text-cream hidden md:flex">
+                                        <span>{index + 1}70</span>
+                                        <span>{index + 2}00</span>
+                                        <span>{index + 3}10</span>
+                                    </div>
                                 </div>
 
-                                {/* Vertical frame numbers */}
-                                <div className="absolute -left-6 md:-left-12 inset-y-0 flex flex-col justify-around py-4 md:py-8 font-mono text-[7px] opacity-20 text-cream hidden md:flex">
-                                    <span>{index + 1}70</span>
-                                    <span>{index + 2}00</span>
-                                    <span>{index + 3}10</span>
+                                {/* Right Title Part */}
+                                <div className="title-right absolute left-[100%] pl-2 md:pl-4 text-left pointer-events-auto z-20 w-[40vw] md:w-[25vw] max-w-[400px]">
+                                    <h2 className="text-3xl md:text-[3.75vw] lg:text-[5.25vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter text-balance break-words">
+                                        {project.title.split(' ').slice(Math.ceil(project.title.split(' ').length / 2)).join(' ')}
+                                    </h2>
                                 </div>
-                            </div>
-
-                            {/* Right Title Part */}
-                            <div className="title-right absolute right-0 md:right-[10%] lg:right-[15%] text-left pl-4 md:pl-6 pointer-events-auto z-20 w-[40vw] md:w-auto">
-                                <h2 className="text-3xl md:text-[5vw] lg:text-[6vw] xl:text-8xl font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
-                                    {project.title.split(' ').slice(Math.ceil(project.title.split(' ').length / 2)).join(' ')}
-                                </h2>
                             </div>
                         </div>
 
                         {/* Bottom Metadata */}
-                        <div className="w-full max-w-[65vw] md:max-w-[40vw] flex justify-between items-center mt-3 md:mt-4 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
+                        <div className="w-[55vw] md:w-[40vw] flex justify-between items-center mt-2 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
                             <span className="opacity-40">{project.metadata}</span>
-                            <span className="uppercase text-center max-w-[300px] border-b border-cream/10 pb-1">{project.client}</span>
+                            <span className="uppercase text-center max-w-[300px] border-b border-cream/10 pb-1 mx-2 truncate">{project.client}</span>
                             <span className="opacity-40">{project.projectNumber}</span>
                         </div>
                     </div>
