@@ -137,9 +137,9 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                         ))}
                     </div>
 
-                    <div className="relative w-full max-w-[95vw] flex flex-col items-center">
+                    <div className="relative w-full flex flex-col items-center justify-center">
                         {/* Top Metadata */}
-                        <div className="w-full flex justify-between items-center mb-8 px-4 md:px-12 font-mono text-[9px] tracking-[0.4em] text-cream/30 meta-item">
+                        <div className="w-full max-w-[65vw] md:max-w-[40vw] flex justify-between items-center mb-3 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
                             <span className="uppercase">{project.category}</span>
                             <div className="flex gap-4 opacity-40">
                                 <span>ⓥ</span>
@@ -149,18 +149,18 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                             <span className="uppercase">{project.subCategory}</span>
                         </div>
 
-                        {/* Main Content Area */}
-                        <div className="relative flex items-center justify-center w-full min-h-[50vh]">
+                        {/* Main Content Area (Image with split titles) */}
+                        <div className="relative flex items-center justify-center w-full">
                             {/* Left Title Part */}
-                            <div className="title-left absolute left-0 w-[45%] text-right pr-4 md:pr-10 pointer-events-auto z-20">
-                                <h2 className="text-2xl md:text-[4.5vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
+                            <div className="title-left absolute left-0 md:left-[10%] lg:left-[15%] text-right pr-4 md:pr-6 pointer-events-auto z-20 w-[40vw] md:w-auto">
+                                <h2 className="text-3xl md:text-[5vw] lg:text-[6vw] xl:text-8xl font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
                                     {project.title.split(' ').slice(0, Math.ceil(project.title.split(' ').length / 2)).join(' ')}
                                 </h2>
                             </div>
 
                             {/* Central Film Frame */}
                             <div
-                                className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[65vw] md:max-w-[40vw] z-10 cursor-pointer pointer-events-auto transition-transform hover:scale-[1.02] duration-500"
+                                className="film-frame relative w-full aspect-[4/5] md:aspect-[16/10] max-w-[55vw] md:max-w-[40vw] z-10 cursor-pointer pointer-events-auto transition-transform hover:scale-[1.01] duration-500"
                                 onClick={() => onProjectSelect && onProjectSelect(project)}
                             >
                                 {/* Film Frame Borders/Markings */}
@@ -182,7 +182,7 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                                 </div>
 
                                 {/* Vertical frame numbers */}
-                                <div className="absolute -left-6 md:-left-12 inset-y-0 flex flex-col justify-around py-4 md:py-8 font-mono text-[7px] opacity-20 text-cream">
+                                <div className="absolute -left-6 md:-left-12 inset-y-0 flex flex-col justify-around py-4 md:py-8 font-mono text-[7px] opacity-20 text-cream hidden md:flex">
                                     <span>{index + 1}70</span>
                                     <span>{index + 2}00</span>
                                     <span>{index + 3}10</span>
@@ -190,17 +190,17 @@ const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjec
                             </div>
 
                             {/* Right Title Part */}
-                            <div className="title-right absolute right-0 w-[45%] text-left pl-4 md:pl-10 pointer-events-auto z-20">
-                                <h2 className="text-2xl md:text-[4.5vw] font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
+                            <div className="title-right absolute right-0 md:right-[10%] lg:right-[15%] text-left pl-4 md:pl-6 pointer-events-auto z-20 w-[40vw] md:w-auto">
+                                <h2 className="text-3xl md:text-[5vw] lg:text-[6vw] xl:text-8xl font-serif italic leading-[0.8] text-cream text-shadow-glow uppercase tracking-tighter">
                                     {project.title.split(' ').slice(Math.ceil(project.title.split(' ').length / 2)).join(' ')}
                                 </h2>
                             </div>
                         </div>
 
                         {/* Bottom Metadata */}
-                        <div className="w-full flex justify-between items-center mt-12 px-4 md:px-12 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item">
+                        <div className="w-full max-w-[65vw] md:max-w-[40vw] flex justify-between items-center mt-3 md:mt-4 font-mono text-[9px] tracking-[0.4em] text-cream/50 meta-item z-20">
                             <span className="opacity-40">{project.metadata}</span>
-                            <span className="uppercase text-center max-w-[400px] border-b border-cream/10 pb-1">{project.client}</span>
+                            <span className="uppercase text-center max-w-[300px] border-b border-cream/10 pb-1">{project.client}</span>
                             <span className="opacity-40">{project.projectNumber}</span>
                         </div>
                     </div>
