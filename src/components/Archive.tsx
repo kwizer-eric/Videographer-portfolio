@@ -1,17 +1,17 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { projects } from '../data/projects';
 import type { Project } from '../data/projects';
 
 interface ArchiveProps {
+    projects: Project[];
     onProjectSelect?: (project: Project) => void;
 }
 
-const Archive: React.FC<ArchiveProps> = ({ onProjectSelect }) => {
+const Archive: React.FC<ArchiveProps> = ({ projects, onProjectSelect }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftColRef = useRef<HTMLDivElement>(null);
     const rightColRef = useRef<HTMLDivElement>(null);
-    const [hoveredProject, setHoveredProject] = useState<typeof projects[0] | null>(null);
+    const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
     const leftTween = useRef<gsap.core.Tween | null>(null);
     const rightTween = useRef<gsap.core.Tween | null>(null);
@@ -49,7 +49,7 @@ const Archive: React.FC<ArchiveProps> = ({ onProjectSelect }) => {
         return () => ctx.revert();
     }, []);
 
-    const handleMouseEnter = (project: typeof projects[0]) => {
+    const handleMouseEnter = (project: Project) => {
         setHoveredProject(project);
         // Completely stop the animation on hover
         if (leftTween.current) leftTween.current.pause();

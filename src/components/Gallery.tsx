@@ -1,31 +1,34 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useMemo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { projects } from '../data/projects';
 import type { Project } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Generate roughly 90 items for a massive gallery test
-const massiveGallery = Array.from({ length: 90 }, (_, i) => ({
-    ...projects[i % projects.length],
-    id: `${projects[i % projects.length].id}-${i}`
-}));
-
-// Split into 3 rows for dense packing
-const row1 = massiveGallery.slice(0, 30);
-const row2 = massiveGallery.slice(30, 60);
-const row3 = massiveGallery.slice(60, 90);
-
 interface GalleryProps {
+    projects: Project[];
     onProjectSelect?: (project: Project) => void;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ onProjectSelect }) => {
+const Gallery: React.FC<GalleryProps> = ({ projects, onProjectSelect }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
     const row3Ref = useRef<HTMLDivElement>(null);
+
+    // Generate roughly 90 items for a massive gallery test
+    const massiveGallery = useMemo(() => {
+        if (!projects || projects.length === 0) return [];
+        return Array.from({ length: 90 }, (_, i) => ({
+            ...projects[i % projects.length],
+            id: `${projects[i % projects.length].id}-${i}`
+        }));
+    }, [projects]);
+
+    // Split into 3 rows for dense packing
+    const row1 = massiveGallery.slice(0, 30);
+    const row2 = massiveGallery.slice(30, 60);
+    const row3 = massiveGallery.slice(60, 90);
 
     useLayoutEffect(() => {
         let ctx = gsap.context(() => {

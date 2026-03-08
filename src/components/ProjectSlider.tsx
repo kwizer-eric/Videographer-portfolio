@@ -2,17 +2,17 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Observer } from 'gsap/all';
-import { projects } from '../data/projects';
 import type { Project } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger, Observer);
 
 interface ProjectSliderProps {
+    projects: Project[];
     onProjectChange?: (index: number) => void;
     onProjectSelect?: (project: Project) => void;
 }
 
-const ProjectSlider: React.FC<ProjectSliderProps> = ({ onProjectChange, onProjectSelect }) => {
+const ProjectSlider: React.FC<ProjectSliderProps> = ({ projects, onProjectChange, onProjectSelect }) => {
     const component = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
