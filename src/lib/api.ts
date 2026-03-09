@@ -1,4 +1,5 @@
-import { Project, projects as initialProjects } from '../data/projects';
+import type { Project } from '../data/projects';
+import { projects as initialProjects } from '../data/projects';
 
 const STORAGE_KEY = 'videographer_projects';
 
